@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "rank_budget_json": "/tmp/jt_run.rankbudgets.fast/plora_step4_rank_budgets.json",
+  "rank_budget_csv": "/tmp/jt_run.rankbudgets.fast/plora_step4_rank_budgets.csv",
+  "summary_csv": "/tmp/jt_run.rankbudgets.fast/plora_step4_param_summary.csv",
+  "languages_used": [
+    "ben_Beng",
+    "cmn_Hans",
+    "eng_Latn",
+    "fra_Latn",
+    "hin_Deva",
+    "mar_Deva",
+    "nld_Latn",
+    "pol_Latn",
+    "urd_Arab"
+  ],
+  "datasets_used": {
+    "hin_Deva": "Helsinki-NLP/opus-100::en-hi",
+    "fra_Latn": "Helsinki-NLP/opus-100::en-fr",
+    "cmn_Hans": "Helsinki-NLP/opus-100::en-zh",
+    "urd_Arab": "Helsinki-NLP/opus-100::en-ur",
+    "eng_Latn": "Helsinki-NLP/opus-100::en-fr",
+    "ben_Beng": "Helsinki-NLP/opus-100::bn-en",
+    "mar_Deva": "Helsinki-NLP/opus-100::en-mr",
+    "nld_Latn": "Helsinki-NLP/opus-100::en-nl",
+    "pol_Latn": "Helsinki-NLP/opus-100::en-pl"
+  },
+  "n_samples_per_lang": 60
+}

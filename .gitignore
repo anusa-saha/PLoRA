@@ -1,0 +1,21 @@
+# ML artifacts
+outputs/
+checkpoints/
+data/
+
+# HF cache
+.hf_home/
+.hf_datasets/
+
+# Python junk
+__pycache__/
+*.pyc
+
+# model weights
+*.pt
+*.bin
+*.ckpt
+*.safetensors
+*.zip
+*.tar
+*.gz

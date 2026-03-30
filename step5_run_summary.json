@@ -1,0 +1,50 @@
+{
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "languages": [
+    "ben_Beng",
+    "cmn_Hans",
+    "eng_Latn",
+    "fra_Latn",
+    "hin_Deva",
+    "mar_Deva",
+    "nld_Latn",
+    "pol_Latn",
+    "urd_Arab"
+  ],
+  "budget_key": "fair_budget",
+  "steps": 2001,
+  "dataset_sources": {
+    "ben_Beng": "Helsinki-NLP/opus-100::bn-en",
+    "cmn_Hans": "Helsinki-NLP/opus-100::en-zh",
+    "eng_Latn": "Helsinki-NLP/opus-100::en-fr",
+    "fra_Latn": "Helsinki-NLP/opus-100::en-fr",
+    "hin_Deva": "Helsinki-NLP/opus-100::en-hi",
+    "mar_Deva": "Helsinki-NLP/opus-100::en-mr",
+    "nld_Latn": "Helsinki-NLP/opus-100::en-nl",
+    "pol_Latn": "Helsinki-NLP/opus-100::en-pl",
+    "urd_Arab": "Helsinki-NLP/opus-100::en-ur"
+  },
+  "train_counts": {
+    "ben_Beng": 1703,
+    "cmn_Hans": 683,
+    "eng_Latn": 748,
+    "fra_Latn": 938,
+    "hin_Deva": 1757,
+    "mar_Deva": 1708,
+    "nld_Latn": 762,
+    "pol_Latn": 842,
+    "urd_Arab": 1960
+  },
+  "eval_counts": {
+    "ben_Beng": 150,
+    "cmn_Hans": 150,
+    "eng_Latn": 150,
+    "fra_Latn": 150,
+    "hin_Deva": 150,
+    "mar_Deva": 150,
+    "nld_Latn": 150,
+    "pol_Latn": 150,
+    "urd_Arab": 150
+  },
+  "output_dir": "output_stream/final"
+}

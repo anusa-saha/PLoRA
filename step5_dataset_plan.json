@@ -1,0 +1,74 @@
+{
+  "hin_Deva": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-hi",
+    "field": "hi",
+    "status": "ready"
+  },
+  "fra_Latn": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-fr",
+    "field": "fr",
+    "status": "ready"
+  },
+  "cmn_Hans": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-zh",
+    "field": "zh",
+    "status": "ready"
+  },
+  "urd_Arab": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-ur",
+    "field": "ur",
+    "status": "ready"
+  },
+  "eng_Latn": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": null,
+    "field": "en",
+    "status": "skip_english_self"
+  },
+  "awa_Deva": {
+    "dataset": "openlanguagedata/flores_plus",
+    "config": "awa_Deva",
+    "field": "text",
+    "status": "fallback"
+  },
+  "ben_Beng": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "bn-en",
+    "field": "bn",
+    "status": "ready"
+  },
+  "mar_Deva": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-mr",
+    "field": "mr",
+    "status": "ready"
+  },
+  "nld_Latn": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-nl",
+    "field": "nl",
+    "status": "ready"
+  },
+  "pol_Latn": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "config": "en-pl",
+    "field": "pl",
+    "status": "ready"
+  },
+  "snd_Arab": {
+    "dataset": "openlanguagedata/flores_plus",
+    "config": "snd_Arab",
+    "field": "text",
+    "status": "fallback"
+  },
+  "azb_Arab": {
+    "dataset": "openlanguagedata/flores_plus",
+    "config": "azb_Arab",
+    "field": "text",
+    "status": "fallback"
+  }
+}

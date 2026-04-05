@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -41,14 +42,76 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def run_command(cmd: List[str]) -> None:
+def run_command(cmd: List[str], cwd: Path) -> None:
     print(">>>", " ".join(cmd), flush=True)
-    subprocess.run(cmd, check=True)
+    subprocess.run(cmd, check=True, cwd=str(cwd))
+
+
+def resolve_existing_path(raw_path: str, base_dir: Path) -> Path:
+    normalized = raw_path.strip().replace("\\", "/")
+    candidates: List[Path] = []
+
+    direct = Path(normalized)
+    candidates.append(direct)
+    if not direct.is_absolute():
+        candidates.append(base_dir / direct)
+
+    if normalized.startswith(".") and not normalized.startswith(("./", "../")):
+        trimmed = normalized[1:]
+        if trimmed:
+            candidates.append(Path(trimmed))
+            candidates.append(base_dir / trimmed)
+
+        match = re.match(r"^\.(outputs?)(.+)$", normalized)
+        if match:
+            stem = match.group(1)
+            suffix = match.group(2).lstrip("/")
+            if suffix:
+                candidates.append(Path(stem) / suffix)
+                candidates.append(base_dir / stem / suffix)
+
+    seen = set()
+    for candidate in candidates:
+        key = str(candidate)
+        if key in seen:
+            continue
+        seen.add(key)
+        if candidate.exists():
+            return candidate.resolve()
+
+    raise FileNotFoundError(
+        f"Could not resolve path '{raw_path}'. "
+        f"If you are launching from Linux/bash, use forward slashes like './file.json' instead of '.\\file.json'."
+    )
+
+
+def resolve_output_path(raw_path: str, base_dir: Path) -> Path:
+    normalized = raw_path.strip().replace("\\", "/")
+    direct = Path(normalized)
+    if direct.is_absolute():
+        return direct
+
+    if normalized.startswith("./"):
+        return (Path.cwd() / normalized[2:]).resolve()
+
+    if normalized.startswith(".") and not normalized.startswith(("./", "../")):
+        trimmed = normalized[1:]
+        match = re.match(r"^\.(outputs?)(.+)$", normalized)
+        if match:
+            stem = match.group(1)
+            suffix = match.group(2).lstrip("/")
+            return (base_dir / stem / suffix).resolve()
+        if trimmed:
+            return (base_dir / trimmed).resolve()
+
+    return (base_dir / direct).resolve()
 
 
 def main() -> None:
     args = parse_args()
-    output_root = Path(args.output_root)
+    suite_dir = Path(__file__).resolve().parent
+    dataset_manifest = resolve_existing_path(args.dataset_manifest, suite_dir)
+    output_root = resolve_output_path(args.output_root, suite_dir)
     output_root.mkdir(parents=True, exist_ok=True)
 
     tasks = [task.strip() for task in args.tasks.split(",") if task.strip()]
@@ -63,9 +126,9 @@ def main() -> None:
         if not args.skip_channel_budget:
             channel_cmd = [
                 args.python_exe,
-                "plora_task_channel_budget.py",
+                str((suite_dir / "plora_task_channel_budget.py").resolve()),
                 "--dataset-manifest",
-                args.dataset_manifest,
+                str(dataset_manifest),
                 "--task",
                 task,
                 "--model-id",
@@ -92,14 +155,14 @@ def main() -> None:
             if args.print_only:
                 print(">>>", " ".join(channel_cmd), flush=True)
             else:
-                run_command(channel_cmd)
+                run_command(channel_cmd, suite_dir)
 
         if not args.skip_training:
             train_cmd = [
                 args.python_exe,
-                "plora_task_language_routed_training.py",
+                str((suite_dir / "plora_task_language_routed_training.py").resolve()),
                 "--dataset-manifest",
-                args.dataset_manifest,
+                str(dataset_manifest),
                 "--task",
                 task,
                 "--rank-json",
@@ -144,12 +207,12 @@ def main() -> None:
             if args.print_only:
                 print(">>>", " ".join(train_cmd), flush=True)
             else:
-                run_command(train_cmd)
+                run_command(train_cmd, suite_dir)
         task_run_dirs[task] = train_dir
 
     report_cmd = [
         args.python_exe,
-        "plora_task_perplexity_report.py",
+        str((suite_dir / "plora_task_perplexity_report.py").resolve()),
         "--output-dir",
         str(output_root / "report"),
     ]
@@ -158,9 +221,8 @@ def main() -> None:
     if args.print_only:
         print(">>>", " ".join(report_cmd), flush=True)
     else:
-        run_command(report_cmd)
+        run_command(report_cmd, suite_dir)
 
 
 if __name__ == "__main__":
     main()
-

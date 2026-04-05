@@ -29,7 +29,7 @@ from peft import LoraConfig, PeftModel, TaskType, get_peft_model
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
-from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
+from transformers import AutoModelForCausalLM, AutoTokenizer, default_data_collator, set_seed
 
 LOGGER = logging.getLogger("plora.step5")
 
@@ -62,17 +62,6 @@ FLORES_MIRROR_LANG_MAP = {
     "pol_Latn": "pol_Latn",
     "urd_Arab": "urd_Arab",
 }
-NATURAL_WEB_CONFIG_MAP = {
-    "eng_Latn": ("HuggingFaceFW/fineweb", None),
-    "fra_Latn": ("HuggingFaceFW/fineweb-2", "fra_Latn"),
-    "cmn_Hans": ("HuggingFaceFW/fineweb-2", "cmn_Hani"),
-    "urd_Arab": ("HuggingFaceFW/fineweb-2", "urd_Arab"),
-    "hin_Deva": ("HuggingFaceFW/fineweb-2", "hin_Deva"),
-    "ben_Beng": ("HuggingFaceFW/fineweb-2", "ben_Beng"),
-    "mar_Deva": ("HuggingFaceFW/fineweb-2", "mar_Deva"),
-    "nld_Latn": ("HuggingFaceFW/fineweb-2", "nld_Latn"),
-    "pol_Latn": ("HuggingFaceFW/fineweb-2", "pol_Latn"),
-}
 
 
 @dataclass
@@ -87,7 +76,7 @@ class LangData:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="PLoRA Step 5 language-routed training")
     p.add_argument("--rank-json", type=str, default="plora_step4_rank_budgets.json")
-    p.add_argument("--model-id", type=str, default="Qwen/Qwen3-4B-Base", help="Base model id for Step 5 training")
+    p.add_argument("--model-id", type=str, default=None, help="Override model id from Step 4 JSON")
     p.add_argument("--budget-key", type=str, default="fair_budget", choices=["fair_budget", "equal_budget"])
     p.add_argument("--output-dir", type=str, default="outputs/plora_step5")
 
@@ -110,8 +99,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "--dataset-kind",
         type=str,
-        default="natural_web_mix",
-        choices=["opus_or_flores", "flores200_mirror", "natural_web_mix"],
+        default="opus_or_flores",
+        choices=["opus_or_flores", "flores200_mirror"],
         help="Corpus source for Step 5 training.",
     )
 
@@ -211,48 +200,6 @@ def build_monolingual_texts(lang_code: str, max_samples: int) -> Tuple[List[str]
     )
 
 
-def build_natural_web_texts(lang_code: str, max_samples: int) -> Tuple[List[str], str]:
-    """Load natural monolingual web text for Step 5 causal LM training.
-
-    This avoids benchmark-style translation corpora for training and instead uses
-    cleaned web corpora:
-      - English: FineWeb
-      - Other supported languages: FineWeb2 language-specific subsets
-    """
-    spec = NATURAL_WEB_CONFIG_MAP.get(lang_code)
-    if spec is None:
-        raise RuntimeError(f"No natural web corpus mapping configured for {lang_code}")
-
-    dataset_name, config_name = spec
-    if config_name is None:
-        ds = load_dataset(dataset_name, split="train", streaming=True)
-    else:
-        ds = load_dataset(dataset_name, config_name, split="train", streaming=True)
-
-    texts: List[str] = []
-    seen = set()
-    for row in ds:
-        text = row.get("text", "")
-        if not isinstance(text, str):
-            continue
-        text = text.strip()
-        if not text or len(text) < 32:
-            continue
-        # Avoid repeated boilerplate and exact duplicates in the first chunk.
-        if text in seen:
-            continue
-        seen.add(text)
-        texts.append(text)
-        if len(texts) >= max_samples:
-            break
-
-    if not texts:
-        raise RuntimeError(f"No usable natural web texts loaded for {lang_code} from {dataset_name}::{config_name}")
-
-    source = dataset_name if config_name is None else f"{dataset_name}::{config_name}"
-    return texts, source
-
-
 def build_flores200_exact_texts(lang_code: str, train_samples: int, eval_samples: int) -> Tuple[List[str], str]:
     """Load a fixed-count aligned corpus from a public FLORES-200 parquet mirror.
 
@@ -295,31 +242,6 @@ def tokenize_texts(texts: List[str], tokenizer, max_len: int) -> Dataset:
     return tokenized
 
 
-def make_causal_lm_collator(tokenizer):
-    pad_id = tokenizer.pad_token_id
-
-    def _collate(features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
-        max_feature_len = max(len(f["input_ids"]) for f in features)
-        input_ids = []
-        attention_mask = []
-        labels = []
-        for f in features:
-            ids = list(f["input_ids"])
-            mask = list(f["attention_mask"])
-            labs = list(f["labels"])
-            pad_len = max_feature_len - len(ids)
-            input_ids.append(ids + [pad_id] * pad_len)
-            attention_mask.append(mask + [0] * pad_len)
-            labels.append(labs + [-100] * pad_len)
-        return {
-            "input_ids": torch.tensor(input_ids, dtype=torch.long),
-            "attention_mask": torch.tensor(attention_mask, dtype=torch.long),
-            "labels": torch.tensor(labels, dtype=torch.long),
-        }
-
-    return _collate
-
-
 def split_dataset(ds: Dataset, max_eval: int, seed: int) -> Tuple[Dataset, Dataset]:
     if len(ds) <= max_eval + 1:
         cut = max(1, len(ds) // 10)
@@ -345,13 +267,10 @@ def create_dataloaders(
     dataset_kind: str,
 ) -> Dict[str, LangData]:
     result: Dict[str, LangData] = {}
-    collator = make_causal_lm_collator(tokenizer)
     for lc in lang_codes:
         LOGGER.info("Loading multilingual corpus for %s", lc)
         if dataset_kind == "flores200_mirror":
             texts, source = build_flores200_exact_texts(lc, max_train, max_eval)
-        elif dataset_kind == "natural_web_mix":
-            texts, source = build_natural_web_texts(lc, max_train + max_eval)
         else:
             texts, source = build_monolingual_texts(lc, max_train + max_eval)
         tok_ds = tokenize_texts(texts, tokenizer, max_len)
@@ -378,14 +297,14 @@ def create_dataloaders(
             train_ds,
             batch_size=train_bs,
             shuffle=True,
-            collate_fn=collator,
+            collate_fn=default_data_collator,
             drop_last=False,
         )
         eval_loader = DataLoader(
             eval_ds,
             batch_size=eval_bs,
             shuffle=False,
-            collate_fn=collator,
+            collate_fn=default_data_collator,
             drop_last=False,
         )
         result[lc] = LangData(
@@ -708,7 +627,7 @@ def main() -> None:
     random.seed(args.seed)
 
     payload = load_rank_payload(args.rank_json)
-    model_id = args.model_id or payload["metadata"].get("model_id", "Qwen/Qwen3-4B-Base")
+    model_id = args.model_id or payload["metadata"].get("model_id", "Qwen/Qwen3-4B-Instruct-2507")
     support_sets: Dict[str, List[int]] = payload["support_sets"]
     rank_map: Dict[str, Dict[str, int]] = payload[args.budget_key]
     language_names: Dict[str, str] = payload.get("metadata", {}).get("languages", {})

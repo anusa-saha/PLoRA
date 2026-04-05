@@ -1,0 +1,414 @@
+{
+  "languages": {
+    "eng_Latn": "English",
+    "fra_Latn": "French",
+    "cmn_Hans": "Chinese",
+    "nld_Latn": "Dutch",
+    "pol_Latn": "Polish",
+    "hin_Deva": "Hindi",
+    "ben_Beng": "Bengali",
+    "mar_Deva": "Marathi",
+    "urd_Arab": "Urdu"
+  },
+  "tasks": {
+    "summarization": {
+      "task_type": "summarization",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "input_field": "document",
+      "target_field": "summary",
+      "languages": {
+        "eng_Latn": {
+          "dataset": "xsum",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in English."
+        },
+        "fra_Latn": {
+          "dataset": "wiki_lingua",
+          "config": "french",
+          "train_split": "train[:90%]",
+          "eval_split": "train[90%:]",
+          "input_field": "article.document",
+          "target_field": "article.summary",
+          "instruction": "Summarize the following text in French."
+        },
+        "cmn_Hans": {
+          "dataset": "wiki_lingua",
+          "config": "chinese",
+          "train_split": "train[:90%]",
+          "eval_split": "train[90%:]",
+          "input_field": "article.document",
+          "target_field": "article.summary",
+          "instruction": "Summarize the following text in Chinese."
+        },
+        "nld_Latn": {
+          "dataset": "wiki_lingua",
+          "config": "dutch",
+          "train_split": "train[:90%]",
+          "eval_split": "train[90%:]",
+          "input_field": "article.document",
+          "target_field": "article.summary",
+          "instruction": "Summarize the following text in Dutch."
+        },
+        "pol_Latn": {
+          "dataset": "allegro/summarization-polish-summaries-corpus",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "source",
+          "target_field": "target",
+          "instruction": "Summarize the following text in Polish."
+        },
+        "hin_Deva": {
+          "builder": "csv",
+          "dataset": "PMIndiaData/PMIndiaSum",
+          "data_files": {
+            "train": "hf://datasets/PMIndiaData/PMIndiaSum/hindi-hindi/train.csv",
+            "validation": "hf://datasets/PMIndiaData/PMIndiaSum/hindi-hindi/valid.csv",
+            "test": "hf://datasets/PMIndiaData/PMIndiaSum/hindi-hindi/test.csv"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Hindi."
+        },
+        "ben_Beng": {
+          "builder": "csv",
+          "dataset": "PMIndiaData/PMIndiaSum",
+          "data_files": {
+            "train": "hf://datasets/PMIndiaData/PMIndiaSum/bengali-bengali/train.csv",
+            "validation": "hf://datasets/PMIndiaData/PMIndiaSum/bengali-bengali/valid.csv",
+            "test": "hf://datasets/PMIndiaData/PMIndiaSum/bengali-bengali/test.csv"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Bengali."
+        },
+        "mar_Deva": {
+          "builder": "csv",
+          "dataset": "PMIndiaData/PMIndiaSum",
+          "data_files": {
+            "train": "hf://datasets/PMIndiaData/PMIndiaSum/marathi-marathi/train.csv",
+            "validation": "hf://datasets/PMIndiaData/PMIndiaSum/marathi-marathi/valid.csv",
+            "test": "hf://datasets/PMIndiaData/PMIndiaSum/marathi-marathi/test.csv"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Marathi."
+        },
+        "urd_Arab": {
+          "builder": "csv",
+          "dataset": "PMIndiaData/PMIndiaSum",
+          "data_files": {
+            "train": "hf://datasets/PMIndiaData/PMIndiaSum/urdu-urdu/train.csv",
+            "validation": "hf://datasets/PMIndiaData/PMIndiaSum/urdu-urdu/valid.csv",
+            "test": "hf://datasets/PMIndiaData/PMIndiaSum/urdu-urdu/test.csv"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Urdu."
+        }
+      }
+    },
+    "qa": {
+      "task_type": "qa",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "context_field": "context",
+      "question_field": "question",
+      "answer_field": "answers.text",
+      "languages": {
+        "eng_Latn": {
+          "dataset": "rajpurkar/squad",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in English using the provided context."
+        },
+        "fra_Latn": {
+          "builder": "json",
+          "dataset": "pragnakalp/squad_v2_french_translated",
+          "data_files": {
+            "train": "hf://datasets/pragnakalp/squad_v2_french_translated/squad_v2_french_translated.json"
+          },
+          "builder_kwargs": {
+            "field": "data"
+          },
+          "expand_mode": "squad_paragraphs",
+          "train_split": "train[:90%]",
+          "eval_split": "train[90%:]",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in French using the provided context."
+        },
+        "cmn_Hans": {
+          "dataset": "xquad",
+          "config": "xquad.zh",
+          "train_split": "validation[:80%]",
+          "eval_split": "validation[80%:]",
+          "test_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Chinese using the provided context."
+        },
+        "nld_Latn": {
+          "dataset": "Nelis5174473/Dutch-QA-Pairs-Rijksoverheid",
+          "train_split": "train[:90%]",
+          "eval_split": "train[90%:]",
+          "context_field": null,
+          "question_field": "question",
+          "answer_field": "answer",
+          "instruction": "Answer the question in Dutch."
+        },
+        "pol_Latn": {
+          "builder": "csv",
+          "dataset": "ipipan/polqa",
+          "data_files": {
+            "train": "hf://datasets/ipipan/polqa/data/train.csv",
+            "validation": "hf://datasets/ipipan/polqa/data/valid.csv",
+            "test": "hf://datasets/ipipan/polqa/data/test.csv"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "context_field": "passage_text",
+          "question_field": "question",
+          "answer_field": "answers",
+          "instruction": "Answer the question in Polish using the provided context."
+        },
+        "hin_Deva": {
+          "builder": "json",
+          "dataset": "l3cube-pune/indic-squad",
+          "data_files": {
+            "train": "hf://datasets/l3cube-pune/indic-squad/Hindi/train.json",
+            "validation": "hf://datasets/l3cube-pune/indic-squad/Hindi/val.json",
+            "test": "hf://datasets/l3cube-pune/indic-squad/Hindi/test.json"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Hindi using the provided context."
+        },
+        "ben_Beng": {
+          "builder": "json",
+          "dataset": "sartajekram/BanglaRQA",
+          "data_files": {
+            "train": "hf://datasets/sartajekram/BanglaRQA/Train.json",
+            "validation": "hf://datasets/sartajekram/BanglaRQA/Validation.json",
+            "test": "hf://datasets/sartajekram/BanglaRQA/Test.json"
+          },
+          "builder_kwargs": {
+            "field": "data"
+          },
+          "expand_mode": "context_qas",
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "context_field": "context",
+          "question_field": "question_text",
+          "answer_field": "answers.answer_text",
+          "instruction": "Answer the question in Bengali using the provided context."
+        },
+        "mar_Deva": {
+          "builder": "json",
+          "dataset": "l3cube-pune/indic-squad",
+          "data_files": {
+            "train": "hf://datasets/l3cube-pune/indic-squad/Marathi/train.json",
+            "validation": "hf://datasets/l3cube-pune/indic-squad/Marathi/val.json",
+            "test": "hf://datasets/l3cube-pune/indic-squad/Marathi/test.json"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Marathi using the provided context."
+        },
+        "urd_Arab": {
+          "dataset": "uqa/UQA",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answer",
+          "instruction": "Answer the question in Urdu using the provided context."
+        }
+      }
+    },
+    "sentiment": {
+      "task_type": "sentiment",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "input_field": "text",
+      "label_field": "label",
+      "languages": {
+        "eng_Latn": {
+          "dataset": "stanfordnlp/sst2",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "sentence",
+          "label_field": "label",
+          "label_map": {
+            "0": "negative",
+            "1": "positive"
+          },
+          "instruction": "Classify the sentiment of the following English text as negative or positive."
+        },
+        "fra_Latn": {
+          "builder": "json",
+          "dataset": "SetFit/amazon_reviews_multi_fr",
+          "data_files": {
+            "train": "hf://datasets/SetFit/amazon_reviews_multi_fr/train.jsonl",
+            "validation": "hf://datasets/SetFit/amazon_reviews_multi_fr/validation.jsonl",
+            "test": "hf://datasets/SetFit/amazon_reviews_multi_fr/test.jsonl"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "label_field": "label",
+          "label_map": {
+            "0": "negative",
+            "1": "negative",
+            "2": "neutral",
+            "3": "positive",
+            "4": "positive"
+          },
+          "instruction": "Classify the sentiment of the following French text as negative, neutral, or positive."
+        },
+        "cmn_Hans": {
+          "builder": "json",
+          "dataset": "SetFit/amazon_reviews_multi_zh",
+          "data_files": {
+            "train": "hf://datasets/SetFit/amazon_reviews_multi_zh/train.jsonl",
+            "validation": "hf://datasets/SetFit/amazon_reviews_multi_zh/validation.jsonl",
+            "test": "hf://datasets/SetFit/amazon_reviews_multi_zh/test.jsonl"
+          },
+          "train_split": "train",
+          "eval_split": "validation",
+          "test_split": "test",
+          "input_field": "text",
+          "label_field": "label",
+          "label_map": {
+            "0": "negative",
+            "1": "negative",
+            "2": "neutral",
+            "3": "positive",
+            "4": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Chinese text as negative, neutral, or positive."
+        },
+        "nld_Latn": {
+          "dataset": "benjaminvdb/dbrd",
+          "train_split": "train",
+          "eval_split": "test",
+          "input_field": "text",
+          "label_field": "label",
+          "label_map": {
+            "0": "negative",
+            "1": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Dutch text as negative or positive."
+        },
+        "pol_Latn": {
+          "dataset": "allegro/klej-polemo2-in",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "sentence",
+          "label_field": "target",
+          "label_map": {
+            "__label__meta_minus_m": "negative",
+            "__label__meta_plus_m": "positive",
+            "__label__meta_amb": "neutral",
+            "__label__meta_zero": "neutral"
+          },
+          "instruction": "Classify the sentiment of the following Polish text as negative, neutral, or positive."
+        },
+        "hin_Deva": {
+          "builder": "json",
+          "dataset": "mteb/IndicSentiment",
+          "data_files": {
+            "train": "hf://datasets/mteb/IndicSentiment/train/hi.jsonl.gz",
+            "test": "hf://datasets/mteb/IndicSentiment/test/hi.jsonl.gz"
+          },
+          "train_split": "train",
+          "eval_split": "test",
+          "input_field": "INDIC REVIEW",
+          "label_field": "LABEL",
+          "label_map": {
+            "Negative": "negative",
+            "Positive": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Hindi text as negative or positive."
+        },
+        "ben_Beng": {
+          "builder": "json",
+          "dataset": "mteb/IndicSentiment",
+          "data_files": {
+            "train": "hf://datasets/mteb/IndicSentiment/train/bn.jsonl.gz",
+            "test": "hf://datasets/mteb/IndicSentiment/test/bn.jsonl.gz"
+          },
+          "train_split": "train",
+          "eval_split": "test",
+          "input_field": "INDIC REVIEW",
+          "label_field": "LABEL",
+          "label_map": {
+            "Negative": "negative",
+            "Positive": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Bengali text as negative or positive."
+        },
+        "mar_Deva": {
+          "builder": "json",
+          "dataset": "mteb/IndicSentiment",
+          "data_files": {
+            "train": "hf://datasets/mteb/IndicSentiment/train/mr.jsonl.gz",
+            "test": "hf://datasets/mteb/IndicSentiment/test/mr.jsonl.gz"
+          },
+          "train_split": "train",
+          "eval_split": "test",
+          "input_field": "INDIC REVIEW",
+          "label_field": "LABEL",
+          "label_map": {
+            "Negative": "negative",
+            "Positive": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Marathi text as negative or positive."
+        },
+        "urd_Arab": {
+          "dataset": "sepidmnorozy/Urdu_sentiment",
+          "train_split": "train",
+          "eval_split": "test",
+          "input_field": "text",
+          "label_field": "label",
+          "label_map": {
+            "0": "negative",
+            "1": "positive"
+          },
+          "instruction": "Classify the sentiment of the following Urdu text as negative or positive."
+        }
+      }
+    }
+  }
+}

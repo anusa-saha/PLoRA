@@ -1,0 +1,300 @@
+{
+  "languages": {
+    "eng_Latn": "English",
+    "fra_Latn": "French",
+    "cmn_Hans": "Chinese",
+    "nld_Latn": "Dutch",
+    "pol_Latn": "Polish",
+    "hin_Deva": "Hindi",
+    "ben_Beng": "Bengali",
+    "mar_Deva": "Marathi",
+    "urd_Arab": "Urdu"
+  },
+  "tasks": {
+    "summarization": {
+      "task_type": "summarization",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "input_field": "document",
+      "target_field": "summary",
+      "languages": {
+        "eng_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in English."
+        },
+        "fra_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in French."
+        },
+        "cmn_Hans": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Chinese."
+        },
+        "nld_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Dutch."
+        },
+        "pol_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Polish."
+        },
+        "hin_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Hindi."
+        },
+        "ben_Beng": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Bengali."
+        },
+        "mar_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Marathi."
+        },
+        "urd_Arab": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "document",
+          "target_field": "summary",
+          "instruction": "Summarize the following text in Urdu."
+        }
+      }
+    },
+    "qa": {
+      "task_type": "qa",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "context_field": "context",
+      "question_field": "question",
+      "answer_field": "answers.text",
+      "languages": {
+        "eng_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in English using the provided context."
+        },
+        "fra_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in French using the provided context."
+        },
+        "cmn_Hans": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Chinese using the provided context."
+        },
+        "nld_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Dutch using the provided context."
+        },
+        "pol_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Polish using the provided context."
+        },
+        "hin_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Hindi using the provided context."
+        },
+        "ben_Beng": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Bengali using the provided context."
+        },
+        "mar_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Marathi using the provided context."
+        },
+        "urd_Arab": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "context_field": "context",
+          "question_field": "question",
+          "answer_field": "answers.text",
+          "instruction": "Answer the question in Urdu using the provided context."
+        }
+      }
+    },
+    "sentiment": {
+      "task_type": "sentiment",
+      "default_train_split": "train",
+      "default_eval_split": "validation",
+      "input_field": "text",
+      "label_field": "label",
+      "label_map": {
+        "0": "negative",
+        "1": "neutral",
+        "2": "positive"
+      },
+      "languages": {
+        "eng_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in English as negative, neutral, or positive."
+        },
+        "fra_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in French as negative, neutral, or positive."
+        },
+        "cmn_Hans": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Chinese as negative, neutral, or positive."
+        },
+        "nld_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Dutch as negative, neutral, or positive."
+        },
+        "pol_Latn": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Polish as negative, neutral, or positive."
+        },
+        "hin_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Hindi as negative, neutral, or positive."
+        },
+        "ben_Beng": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Bengali as negative, neutral, or positive."
+        },
+        "mar_Deva": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Marathi as negative, neutral, or positive."
+        },
+        "urd_Arab": {
+          "dataset": "<<dataset_name>>",
+          "config": "<<config_or_null>>",
+          "train_split": "train",
+          "eval_split": "validation",
+          "input_field": "text",
+          "label_field": "label",
+          "instruction": "Classify the sentiment of the following text in Urdu as negative, neutral, or positive."
+        }
+      }
+    }
+  }
+}

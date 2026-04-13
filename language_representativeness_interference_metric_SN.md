@@ -31,9 +31,10 @@ Here $\alpha_\lambda(\ell)$ is the layerwise spectral exponent, $L_\lambda(\ell)
 To measure interference, defining a directed score from language $\mu$ to language $\lambda$:
 
 
+
+
 $$
-I_{\mu 	o \lambda}
-=
+I_{\mu 	o \lambda} =
 \eta_1 \, \mathbb{E}_{x \sim \mathcal{D}_\lambda}
 \left[
 \mathrm{KL}\!\left(

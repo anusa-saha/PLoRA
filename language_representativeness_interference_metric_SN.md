@@ -30,22 +30,32 @@ Here $\alpha_\lambda(\ell)$ is the layerwise spectral exponent, $L_\lambda(\ell)
 
 To measure interference, defining a directed score from language $\mu$ to language $\lambda$:
 
-$I_{\mu \to \lambda}
+
+$$
+I_{\mu 	o \lambda}
 =
 \eta_1 \, \mathbb{E}_{x \sim \mathcal{D}_\lambda}
 \left[
 \mathrm{KL}\!\left(
 p^{(\lambda)}(\cdot \mid x)\,\|\,p^{(\mu)}(\cdot \mid x)
-\right)
-\right]
+
+ight)
+
+ight]
 +
-\eta_2 \, \frac{1}{|S_\lambda|}
+\eta_2 \, rac{1}{|S_\lambda|}
 \sum_{\ell \in S_\lambda}
-\frac{
-\left\|\Pi_{S_\lambda}\!\left(\Delta W^{(\mu)}_\ell\right)\right\|_F
+rac{
+\left\|\Pi_{S_\lambda}\!\left(\Delta W^{(\mu)}_\ell
+ight)
+ight\|_F
 }{
-\left\|\Delta W^{(\mu)}_\ell\right\|_F
-}$
+\left\|\Delta W^{(\mu)}_\ell
+ight\|_F
+}
+$$
+
+
 The first term measures behavioral leakage, that is, how much routing the wrong language adapter changes the output distribution on language $\lambda$ prompts. The second term here measureing the geometry leakage, namely how much of adapter $\mu$'s update lies in the subspace used by language $\lambda$. A single scalar summary can then be formed like:
 
 $$
